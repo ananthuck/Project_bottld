@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    {% load static %}
+    <style>
+      body {
+        background-color: black;
+        margin-top: 0;
+      }
+      nav {
+        background-color: rgba(244, 243, 91, 255);
+        max-height: 125px;
+      }
+      .brand {
+        width: 250px;
+        height: 125px;
+        border: 15px solid green;
+        border-radius: 70px;
+        margin-top: 0;
+        margin-left: 50px;
+      }
+      .navbar {
+        display: flex;
+        width: 100%;
+        padding-right: 50px;
+        font-size: 18px;
+        font-weight: 500;
+        text-align: center;
+        border: 10px solid green;
+      }
+
+      .fixed-top {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1030;
+      }
+
+      .dashboard {
+        margin-top: 125px;
+        padding-right: 0;
+        padding-left: 0;
+        margin-left: 0;
+        margin-right: 0;
+        border: 5px solid black;
+        background-color: rgba(244, 243, 91, 255);
+        max-width: 99.3%;
+      }
+
+      .dashboard h3 {
+        background-color: black;
+        color: white;
+        width: 100%;
+        border: 5px solid rgba(244, 243, 91, 255);
+        text-align: center;
+        padding: 10px 0 10px 0;
+        margin-bottom: 0px;
+        color: rgba(244, 243, 91, 255);
+      }
+
+      .head {
+        display: flex;
+        flex-direction: column;
+        margin-left: 0px;
+        width: 100px;
+        border-right: 5px solid black;
+      }
+
+      .head a {
+        text-decoration: none;
+        width: 368px;
+        margin-top: 5px;
+        background-color: transparent;
+        border: none;
+        padding-left: 40px;
+        text-align: left;
+        font-size: 20px;
+        font-weight: 700;
+        color: black;
+      }
+
+      .head a:hover {
+        transform: scale(1.1);
+        transform-style: flat;
+        transition: 0.2s ease-in-out;
+      }
+
+      .table-active table{
+        height: calc(100vh - 275px);
+        overflow-y: auto;
+      }
+
+      .table-active table::-webkit-scrollbar {
+        width: 0;
+      }
+
+      .table-active {
+        display: block;
+      }
+
+      .table {
+        display: none;
+      }
+
+      .products, .category {
+        width: 98%;
+        display: flex;
+        flex-direction: column;
+        border: 5px solid black;
+        background-color: black;
+        margin-bottom: 13px;
+        color: rgba(244, 243, 91, 255);
+      }
+
+      .products span, .category span {
+        display: flex;
+      }
+
+      .title h3 {
+        background-color: rgba(244, 243, 91, 255);
+        margin-top: 10px;
+        color: black;
+        display: flex;
+        justify-content: space-between;
+        width: 98%;
+        padding: 5px;
+        border: 5px solid black;
+      }
+
+      .title button {
+        background-color: rgb(19, 208, 19);
+        font-size: 18px;
+        font-weight: 700;
+        border: 2px solid black;
+        border-radius: 5px;
+        margin-right: 5px;
+      }
+
+      .title a {
+        text-decoration: none;
+        color: black;
+      }
+
+      .title button:hover {
+        transform: scale(1.1);
+        transition: 0.2s ease-in-out;
+      }
+
+      .products td,
+      .products th {
+        border: 2px solid gray;
+        padding: 5px 40px;
+        text-align: center;
+      }
+
+      .btn {
+        background-color: yellow;
+        margin-right: 5px;
+        border: 2px solid black;
+        border-radius: 30%;
+        font-weight: 700;
+      }
+
+      td button:hover, .btn:hover {
+        transform: scale(1.1);
+        transition: 0.2s ease-in-out;
+      }
+
+      .products button, .category button {
+        background-color: red;
+        border: 2px solid black;
+        color: black;
+        border-radius: 30%;
+        font-weight: 700;
+      }
+
+      .category td,
+      .category th {
+        border: 2px solid gray;
+        padding: 5px 150px;
+        text-align: center;
+      }
+
+      
+    </style>
+  </head>
+  <body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <a href="{% url 'home' %}" class="navbar-brand">
+        <img src="{% static 'Logobg.jpg' %}" alt="" class="brand"
+      /></a>
+    </nav>
+
+    <div class="dashboard container-fluid">
+      <h3>Admin Dashboard</h3>
+      <div class="row">
+        <div class="head col-sm-3">
+          <a onclick="product()">Products</a>
+          <a onclick="category()">Categories</a>
+          <a>Users</a>
+          <a href="{% url 'adminlogout' %}">Logout</a>
+        </div>
+        <div class="details col-sm-9">
+          <div class="table-active" id="product">
+            <table class="products">
+              <div class="title">
+                <h3>
+                  Product Details<button>
+                    <a href="{% url 'addproduct' %}">Add Product</a>
+                  </button>
+                </h3>
+              </div>
+              <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Action</th>
+              </tr>
+
+              {% for p in pdt %}
+              <tr>
+                <td>{{p.id}}</td>
+                <td>{{p.productname}}</td>
+                <td>{{p.description}}</td>
+                <td>{{p.category.productcategory}}</td>
+                <td>{{p.price}}</td>
+                <td>
+                  <img height="50" width="50" src="{{p.image.url}}" alt="" />
+                </td>
+                <td>
+                  <span>
+                    <a href="{% url 'edit' p.id %}">
+                      <div class="btn">Edit</div>
+                    </a>
+                    <button onclick="confirmDeleteP('{{p.id}}')">Delete</button>
+                  </span>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+
+          <div class="table" id="category">
+            <table class="category">
+              <div class="title">
+                <h3>
+                  Categories<button>
+                    <a href="{% url 'addcategory' %}">Add Category</a>
+                  </button>
+                </h3>
+              </div>
+              <tr>
+                <th>ID</th>
+                <th>Category Name</th>
+                <th>Action</th>
+              </tr>
+
+              {% for c in cat %}
+              <tr>
+                <td>{{c.id}}</td>
+                <td>{{c.productcategory}}</td>
+                <td>
+                  <span>
+                    <button onclick="confirmDeleteC('{{c.id}}')">Delete</button>
+                  </span>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function category() {
+        document.getElementById("category").className = "table-active";
+        document.getElementById("product").className = "table";
+      }
+
+      function product() {
+        document.getElementById("category").className = "table";
+        document.getElementById("product").className = "table-active";
+      }
+    </script>
+    <script>
+      function confirmDeleteP(userid) {
+        if (confirm("Are you sure you want to delete the product?")) {
+          var deleteUrl = "{% url 'deletepdt' 0 %}".replace(0, userid);
+          window.location.href = deleteUrl;
+        }
+      }
+    </script>
+    <script>
+      function confirmDeleteC(userid) {
+        if (confirm("Are you sure you want to delete the category?")) {
+          var deleteUrl = "{% url 'deletecat' 0 %}".replace(0, userid);
+          window.location.href = deleteUrl;
+        }
+      }
+    </script>
+  </body>
+</html>

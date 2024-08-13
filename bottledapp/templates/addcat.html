@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: rgb(245, 255, 58);
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: wheat;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: black;
+            color: rgba(244,243,91,255);
+        }
+        label, input {
+            width: 100%;
+            margin-bottom: 10px;
+            width: 500px;
+            background-color: black;
+            color:  rgba(244,243,91,255);
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button{
+            height: 50px;
+            width: 200px;
+            background-color: rgb(5, 199, 5);
+            font-size: 15px;
+            color:  black;
+            font-weight: 700;
+            border-radius: 10px;
+        }
+        .button a {
+            background-color: red;
+            height: 50px;
+            padding: 14px 80px 14px 80px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 15px;
+            color:  black;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form method="post" action="{% url 'addcategoryf' %}">
+            {% csrf_token %}
+            <h2>ADD CATEGORY</h2>
+            <label for="productcategory">Category Name</label>
+            <input type="text" name="productcategory" id="productcategory">
+            <div class="button">
+                <a href="{% url 'admindb' %}">Back</a>
+                <button type="submit">Confirm</button>
+            </div>
+        </form>
+</div>
+</body>
+</html>
