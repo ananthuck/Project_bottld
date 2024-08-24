@@ -32,7 +32,7 @@
       }
 
       nav {
-        background-color: rgba(244, 243, 91, 255);
+        background-color: rgba(244, 243, 91, 1);
         max-height: 125px;
       }
       .brand {
@@ -65,7 +65,7 @@
         padding-left: 100px;
       }
       .container {
-        background-color: rgba(244, 243, 91, 255);
+        background-color: rgba(244, 243, 91, 1);
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
         border-radius: 10px;
@@ -89,7 +89,7 @@
       a:hover {
         text-decoration: none;
       }
-      input{
+      input {
         margin-bottom: 4px;
       }
       .button {
@@ -108,8 +108,8 @@
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
       <a href="{% url 'home' %}" class="navbar-brand">
-        <img src="{% static 'Logobg.jpg' %}" alt="" class="brand"
-      /></a>
+        <img src="{% static 'Logobg.jpg' %}" alt="Logo" class="brand" />
+      </a>
     </nav>
 
     <div class="container-fluid">
@@ -117,70 +117,105 @@
         <div class="col-sm-4">
           <div class="container">
             <h3>Sign up</h3>
-            <p>Already a user ?<a href="{% url 'userlogin' %}"> Log in</a></p>
-            <form method="post" name="userreg" onsubmit="return validateForm()">
-            {% csrf_token %}
-              <label for="">Name</label>
-              <input type="text" class="form-control" name="name" placeholder="Enter your name">
-              <label for="">Sex</label>
-              <select name="sex" class="form-control">
+            <p>Already a user? <a href="{% url 'userlogin' %}">Log in</a></p>
+            <form
+              method="post"
+              action="{% url 'user_reg' %}"
+              name="userreg"
+              onsubmit="return validateForm()"
+            >
+              {% csrf_token %}
+              <label for="name">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                id="name"
+                placeholder="Enter your name"
+              />
+              <label for="sex">Sex</label>
+              <select name="sex" id="sex" class="form-control">
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
               </select>
-              <label for="">Email</label>
-              <input type="email" class="form-control" name="email" placeholder="Enter your email id">
-              <label for="">Mobile Number</label>
-              <input type="number" class="form-control" name="phone_number" placeholder="Enter your mobile number">
-              <label for="">Password</label>
-              <input type="password" class="form-control" name="password" placeholder="Enter password">
-              <label for="">Re-enter Password</label>
-              <input type="password" class="form-control" name="repassword" placeholder="Re-enter password"> 
-                <input type="submit" class="button" value="Continue">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                id="email"
+                placeholder="Enter your email id"
+              />
+              <label for="phone_number">Mobile Number</label>
+              <input
+                type="text"
+                class="form-control"
+                name="phone_number"
+                id="phone_number"
+                placeholder="Enter your mobile number"
+              />
+              <label for="password">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                id="password"
+                placeholder="Enter password"
+              />
+              <label for="repassword">Re-enter Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="repassword"
+                id="repassword"
+                placeholder="Re-enter password"
+              />
+              <input type="submit" class="button" value="Continue" />
             </form>
           </div>
         </div>
         <div class="col-sm-8">
-          <img src="{% static 'Logobg.jpg' %}" />
+          <img src="{% static 'Logobg.jpg' %}" alt="Logo" />
         </div>
       </div>
     </div>
     <script>
-        function validateForm(){
-            var uname = document.userreg.name.value;
-            var letter = /^[A-Za-z]+$/;
-            if(!uname.match(letter)){
-                alert('Username must be filled. Alphabet characters only');
-                return false;
-            }
-
-            var umail = document.userreg.email.value;
-            var atpos = umail.indexOf("@");
-            var dotpos = umail.lastIndexOf(".");
-            if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= umail.length) {
-                alert("Enter a valid Email address");
-                return false;
-            }
-
-            var uphone = document.userreg.phone_number.value;
-            if (uphone.length != 10) {
-                alert("Enter a valid mobile number");
-                return false;
-            }
-
-            var pass = document.userreg.password.value;
-            var rpass = document.userreg.repassword.value;
-            if (pass.length < 6) {
-                alert("Password must contain at least 6 characters");
-                return false;
-            }
-            if (pass != rpass) {
-                alert("Passwords do not match");
-                return false;
-            }
-
-            return true;
+      function validateForm() {
+        var uname = document.userreg.name.value;
+        var letter = /^[A-Za-z ]+$/;
+        if (!uname.match(letter)) {
+          alert("Username must be filled with alphabet characters only");
+          return false;
         }
+
+        var umail = document.userreg.email.value;
+        var atpos = umail.indexOf("@");
+        var dotpos = umail.lastIndexOf(".");
+        if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= umail.length) {
+          alert("Enter a valid Email address");
+          return false;
+        }
+
+        var uphone = document.userreg.phone_number.value;
+        if (isNaN(uphone) || uphone.length != 10) {
+          alert("Enter a valid mobile number");
+          return false;
+        }
+
+        var pass = document.userreg.password.value;
+        var rpass = document.userreg.repassword.value;
+        if (pass.length < 6) {
+          alert("Password must contain at least 6 characters");
+          return false;
+        }
+        if (pass !== rpass) {
+          alert("Passwords do not match");
+          return false;
+        }
+
+        return true;
+      }
     </script>
   </body>
 </html>

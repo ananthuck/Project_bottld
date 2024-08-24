@@ -107,7 +107,7 @@
       .carttab {
         width: 450px;
         background-color: black;
-        color: rgba(244,243,91,255);
+        color: rgba(244, 243, 91, 255);
         position: fixed;
         inset: 125px 0px 0 auto;
         display: grid;
@@ -145,7 +145,7 @@
         font-weight: 500;
         font-size: 20px;
         cursor: pointer;
-        width: 107%;
+        width: 206%;
         margin-top: -27px;
         border: 2px solid black;
       }
@@ -183,7 +183,7 @@
       }
 
       .listcart .quantity i {
-        color: rgba(244,243,91,255);
+        color: rgba(244, 243, 91, 255);
       }
 
       .listcart .quantity span {
@@ -221,8 +221,8 @@
         padding: 2px 10px 0px 10px;
         height: 50px;
         margin-bottom: 0px;
-        border-top: 5px solid rgba(244,243,91,255);
-        background-color: rgba(244,243,91,255);
+        border-top: 5px solid rgba(244, 243, 91, 255);
+        background-color: rgba(244, 243, 91, 255);
         color: black;
       }
 
@@ -319,6 +319,12 @@
         margin-top: 5px;
         margin-bottom: 5px;
       }
+      input{
+        display: none;
+      }
+      .buttons button{
+        color: black;
+      }
     </style>
   </head>
   <body>
@@ -340,28 +346,33 @@
 
     <div class="carttab">
       <h1>Your Cart</h1>
-    <div class="listcart">
-      <div class="item">
-        <div class="image">
-          <img src="{% static 'burgers.jpg' %}" alt="">
-        </div>
-        <div class="name">Burger</div>
-        <div class="price">₹ 199</div>
-        <div class="quantity">
-          <button><span class="minus"><</span></button>
-          <span>1</span>
-          <button><span class="plus">></span></button>
-          <button><i class="fa-solid fa-trash"></i></button>
+      <div class="listcart">
+        <div class="item">
+          {% for c in crt %}
+          <div class="image">
+            <img src="{{c.product.image.url}}" alt="" />
+          </div>
+          <div class="name">{{c.product.productname}}</div>
+          <div class="price">₹ {{c.total_price}}</div>
+          <div class="quantity">
+            <button data-id="{{c.id}}" class="minus"><span><</span></button>
+            <span id="quantity-{{c.id}}">{{c.quantity}}</span>
+            <button data-id="{{c.id}}" class="plus"><span>></span></button>
+            <button onclick="confirmDelete('{{c.id}}')">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+          {% endfor %}
         </div>
       </div>
+      <div class="total">
+        <h3>Total</h3>
+        <h3>₹ 199</h3>
+      </div>
+      <div class="btn">
+        <button class="proceed">Proceed</button>
+      </div>
     </div>
-    <div class="total"><h3>Total</h3><h3>₹  199</h3></div>
-    <div class="btn">
-      <button class="close">Close</button>
-      <button class="proceed">Proceed</button>
-    </div>
-  </div>
-
 
     {% if pdt %}
     <div class="container">
@@ -370,7 +381,16 @@
       <p>{{ pdt.description }}</p>
       <span>
         <h1>₹ {{ pdt.price }}</h1>
-        <button>Add to cart</button>
+        <div class="buttons">
+          <form action="{% url 'addtocart' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="id" value="{{pdt.id}}" />
+            <input type="text" name="quantity" value="1" />
+            <button class="btn btn-success" type="submit" onclick="">
+              Add to cart
+            </button>
+          </form>
+        </div>
       </span>
     </div>
     {% else %}
@@ -390,7 +410,14 @@
               <div class="card-bottom">
                 <h3>₹ {{ product.price }}</h3>
                 <div class="buttons">
-                  <button class="btn btn-success">Order now</button>
+                  <form action="{% url 'addtocart' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="id" value="{{product.id}}" />
+                    <input type="text" name="quantity" value="1" />
+                    <button class="btn btn-success" type="submit" onclick="">
+                      Order now
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>

@@ -8,9 +8,17 @@ from django.http import JsonResponse
 from .models import Product, Cart
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
+from twilio.rest import Client
+import random
+from django.views.decorators.cache import cache_control
 
 
 # Create your views here.
+
+# TWILIO_ACCOUNT_SID = "ACe40ee2636521cecbe7fc0673ee4b9cc7"
+# TWILIO_AUTH_TOKEN = "adec3667f071626c92cd0f19d4fa207a"
+
+# c = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 
 def home(request):
@@ -25,7 +33,8 @@ def adminloginpg(request):
 def admindb(request):
     cat = Category.objects.all()
     pdt = Product.objects.all()
-    return render(request, 'admindb.html', {'pdt': pdt, 'cat': cat})
+    udt = Userlogin.objects.all()
+    return render(request, 'admindb.html', {'pdt': pdt, 'cat': cat, 'udt':udt})
 
     
 
@@ -53,10 +62,12 @@ def viewproduct(request, pk=None):
     query = request.GET.get('q', '')
     if query:
         products = Product.objects.filter(productname__icontains=query)
-        return render(request, 'viewproduct.html', {'pdt': products})
+        crt = Cart.objects.all()
+        return render(request, 'viewproduct.html', {'pdt': products, 'crt':crt})
     else:
         pdt = get_object_or_404(Product, id=pk)
-        return render(request, 'viewproduct.html', {'pdt': pdt})
+        crt = Cart.objects.all()
+        return render(request, 'viewproduct.html', {'pdt': pdt, 'crt':crt })
 
 def addproduct(request):
     categories = Category.objects.all()
@@ -151,6 +162,56 @@ def userlogin(request):
 
 def userreg(request):
     return render(request, 'userreg.html')
+
+def generate_otp():
+    return str(random.randint(1000, 9999))
+
+def send_otp(phone_number, otp):
+    client = Client('ACe40ee2636521cecbe7fc0673ee4b9cc7', 'adec3667f071626c92cd0f19d4fa207a')
+    client.messages.create(
+        body=f'Your OTP is: {otp}',
+        from_='+12067598555',
+        to=f'+91{phone_number}' )
+    
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+
+def user_reg(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        sex = request.POST.get('sex')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone_number')
+        password = request.POST.get('password')
+        request.session['temp_phone_number'] = phone_number
+        otp = generate_otp()
+        send_otp(phone_number, otp)
+        request.session['otp'] = otp
+
+        user, created = Userlogin.objects.get_or_create(name=name,sex=sex,email=email,mobile_number=phone_number,password=password,)
+        return redirect('verify_otp')
+    
+    return render(request, 'userreg.html')
+
+def verify_otp(request):
+    if request.method == 'POST':
+        entered_otp = request.POST.get('otp')
+        stored_otp = request.session.get('otp')
+
+        if entered_otp == stored_otp:
+            phone_number = request.session.get('temp_phone_number')
+            user_login, created = Userlogin.objects.get_or_create(mobile_number=phone_number)
+            user_login.otp_verified = True
+            user_login.save()
+            return redirect('userlogin')
+        else:
+            return HttpResponse("Invalid OTP. Please try again.")
+
+    return render(request, 'Verifyotp.html')
+
+def deleteuser(request, pk):
+    udatas=Userlogin.objects.get(id=pk)
+    udatas.delete()
+    return redirect('admindb')
 
 def addtocart(request):
     if request.method == 'POST':

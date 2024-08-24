@@ -15,8 +15,8 @@ class Product(models.Model):
 class Userlogin(models.Model):
     name = models.CharField(max_length=50)
     sex = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    mobile_number = models.CharField(max_length=15, unique=True)
+    email = models.EmailField(max_length=100, unique=True)
+    mobile_number = models.CharField(max_length=15)
     password = models.CharField(max_length=50)
     otp_verified = models.BooleanField(default=False)
 
