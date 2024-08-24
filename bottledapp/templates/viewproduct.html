@@ -174,6 +174,7 @@
         align-items: center;
         padding-bottom: 5px;
         padding-top: 5px;
+        font-size: 13.4px;
       }
 
       .listcart button {
@@ -337,14 +338,14 @@
       <a href="" class="navbar-item"><i class="fa-regular fa-user"></i></a>
       <button class="iconcart navbar-item">
         <p class="cart" id="count">
-          <i class="fa-solid fa-cart-shopping"></i><span>0</span>
+          <i class="fa-solid fa-cart-shopping"></i><span class="qty">0</span>
         </p>
       </button>
     </nav>
 
     <!-- Cart -->
 
-    <div class="carttab">
+    <div class="carttab" id="carttab">
       <h1>Your Cart</h1>
       <div class="listcart">
         <div class="item">
@@ -353,13 +354,13 @@
             <img src="{{c.product.image.url}}" alt="" />
           </div>
           <div class="name">{{c.product.productname}}</div>
-          <div class="price">₹ {{c.total_price}}</div>
+          <div class="price" data-price="{{c.total_price}}">₹ {{c.total_price}}</div>
           <div class="quantity">
-            <button data-id="{{c.id}}" class="minus"><span><</span></button>
+            <button data-id="{{c.id}}" class="minus"><span>-</span></button>
             <span id="quantity-{{c.id}}">{{c.quantity}}</span>
-            <button data-id="{{c.id}}" class="plus"><span>></span></button>
+            <button data-id="{{c.id}}" class="plus"><span>+</span></button>
             <button onclick="confirmDelete('{{c.id}}')">
-              <i class="fa-solid fa-trash"></i>
+                <i class="fa-solid fa-trash"></i>
             </button>
           </div>
           {% endfor %}
@@ -367,12 +368,13 @@
       </div>
       <div class="total">
         <h3>Total</h3>
-        <h3>₹ 199</h3>
+        <h3 class="tp">₹ 0</h3>
       </div>
       <div class="btn">
         <button class="proceed">Proceed</button>
       </div>
-    </div>
+   </div>
+   
 
     {% if pdt %}
     <div class="container">
@@ -438,5 +440,66 @@
         document.getElementById("sbtn").style.display = "block";
       }
     </script>
+    <script>
+      function confirmDelete(cartid) {
+        if (confirm("Are you sure you want to delete the item?")) {
+          var deleteUrl = "{% url 'deleteitem' 0 %}".replace(0, cartid);
+          window.location.href = deleteUrl;
+        }
+      }
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        function calculateTotal() {
+          let total = 0;
+          document.querySelectorAll('.price').forEach(function(priceElement) {
+            const price = parseFloat(priceElement.getAttribute('data-price'));
+            if (!isNaN(price)) {
+              total += price;
+            }
+          });
+          document.querySelector('.tp').textContent = '₹ ' + total.toFixed(2);
+        }
+    
+        calculateTotal();
+    
+         document.querySelectorAll('.plus, .minus').forEach(button => {
+           button.addEventListener('click', calculateTotal);
+         });
+      });
+    </script>
+
+    <script>
+      function updateNavbarCartQuantity() {
+        const quantities = document.querySelectorAll('#carttab .quantity span');
+        let totalQuantity = 0;
+
+        quantities.forEach((quantityElement) => {
+          const quantityText = quantityElement.textContent.trim();
+          const quantity = parseInt(quantityText, 10);
+          if (!isNaN(quantity)) {
+            totalQuantity += quantity;
+          } else {
+            console.warn(`Non-numeric quantity found: "${quantityText}"`);
+          }
+        });
+
+        const qtyElement = document.querySelector('.qty');
+        if (qtyElement) {
+          qtyElement.textContent = totalQuantity;
+        } else {
+          console.error('Navbar quantity element not found.');
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateNavbarCartQuantity);
+
+      document.querySelectorAll('#carttab .quantity .plus, #carttab .quantity .minus').forEach(button => {
+        button.addEventListener('click', () => {
+          setTimeout(updateNavbarCartQuantity, 500); 
+        });
+      });
+    </script>
+    
   </body>
 </html>

@@ -63,11 +63,11 @@ def viewproduct(request, pk=None):
     if query:
         products = Product.objects.filter(productname__icontains=query)
         crt = Cart.objects.all()
-        return render(request, 'viewproduct.html', {'pdt': products, 'crt':crt})
+        return render(request, 'viewproduct.html', {'pdt': products, 'crt': crt})
     else:
         pdt = get_object_or_404(Product, id=pk)
         crt = Cart.objects.all()
-        return render(request, 'viewproduct.html', {'pdt': pdt, 'crt':crt })
+        return render(request, 'viewproduct.html', {'pdt': pdt, 'crt': crt})
 
 def addproduct(request):
     categories = Category.objects.all()
@@ -224,8 +224,8 @@ def addtocart(request):
             cart_item.save()
         else:
             Cart.objects.create(product=product, quantity=pquantity)
-         
-        return redirect('home')
+
+        return redirect(f'/viewproduct/{pid}/')
         
     return render(request, 'Home.html')
 
