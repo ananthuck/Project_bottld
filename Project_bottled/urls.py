@@ -31,4 +31,5 @@ urlpatterns = [
     path('userlogin/', userlogin, name='userlogin'),
     path('userreg/', userreg, name='userreg'),
     path('verify_otp/', verify_otp, name='verify_otp'),
+    path('checkout/', checkout, name='checkout'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Cart</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Your Cart</h1>
+      <div class="listcart">
+        {% for key, item in cart_items.items %}
+        <div class="item">
+          <div class="image">
+            <img src="{{ item.image }}" alt="{{ item.productname }}" />
+          </div>
+          <div class="name">{{ item.productname }}</div>
+          <div class="price">₹ {{ item.price }}</div>
+          <div class="quantity">
+            <a href="{% url 'update_cart_item' key 'decrease' %}"
+              ><span class="minus"><</span></a
+            >
+            <span>{{ item.quantity }}</span>
+            <a href="{% url 'update_cart_item' key 'increase' %}"
+              ><span class="plus">></span></a
+            >
+            <a href="{% url 'remove_cart_item' key %}"
+              ><i class="fa-solid fa-trash"></i
+            ></a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="total">
+        <h3>Total</h3>
+        <h3>₹ {{ total_price }}</h3>
+      </div>
+      <div class="btn">
+        <a href="{% url 'home' %}" class="btn btn-warning">Close</a>
+        <a href="#" class="btn btn-success">Proceed</a>
+      </div>
+    </div>
+  </body>
+</html>

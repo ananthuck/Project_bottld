@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP Verification Form</title>
+    
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    
+    <style>
+    /* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <i class="bx bxs-check-shield"></i>
+      </header>
+      <h4>Enter OTP sent to <br> <h5  >{{request.session.phone_number}}<h5></h4>
+      <form method="post" action="{% url 'verify_otp' %}">
+  {% csrf_token %}
+  <div >
+    <input type="text" name="otp" maxlength="4" class="four-digit-input" />
+  </div>
+  <button type="submit">Verify OTP</button>
+</form>
+
+
+    </div>
+
+    <div id="paypal-button-container"></div>
+        <p id="result-message"></p>
+
+        
+        <!-- Initialize the JS-SDK -->
+        <script
+            src="https://www.paypal.com/sdk/js?client-id=ASGripGy-Kdk4Ry3PQ-SfHvtAs2boJyImFOaX4lWgC4eizZQIJKqUbVi-bCXDAYYMbi5Bm5j7M-OKJks&buyer-country=US&currency=USD&components=buttons&enable-funding=venmo,paylater,card"
+            data-sdk-integration-source="developer-studio"
+        ></script>
+        <script src="app.js"></script>
+     </body>
+</html>

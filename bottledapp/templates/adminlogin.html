@@ -31,8 +31,8 @@
         background-color: black;
       }
       nav {
-          background-color: rgba(244,243,91,255);
-          max-height: 125px;
+        background-color: rgba(244, 243, 91, 255);
+        max-height: 125px;
       }
       .brand {
         width: 250px;
@@ -58,7 +58,7 @@
         z-index: 1030;
       }
       .container-fluid {
-        background-color:black;
+        background-color: black;
         margin-left: 2%;
         margin-right: 2%;
         margin-top: 100px;
@@ -69,7 +69,7 @@
         border-radius: 5px;
       }
       .container {
-        background-color: rgba(244,243,91,255);
+        background-color: rgba(244, 243, 91, 255);
         color: black;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -85,7 +85,7 @@
 
       .container h3 {
         margin-bottom: 30px;
-        color: rgba(244,243,91,255);
+        color: rgba(244, 243, 91, 255);
         background-color: black;
         border-radius: 5px;
         padding-top: 10px;
@@ -99,12 +99,12 @@
 
       .container input {
         background-color: white;
-        color: rgba(244,243,91,255);
+        color: rgba(244, 243, 91, 255);
       }
 
       .container button {
         background-color: black;
-        color: rgba(244,243,91,255);
+        color: rgba(244, 243, 91, 255);
         border: none;
         font-weight: 600;
         width: 100px;
@@ -124,16 +124,17 @@
         border: 10px solid green;
         border-radius: 200px;
       }
-
     </style>
   </head>
   <body>
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <a href="{% url 'home' %}" class="navbar-brand"> <img src="{% static 'Logobg.jpg' %}" alt="" class="brand"></a>
-      </nav>
+      <a href="{% url 'home' %}" class="navbar-brand">
+        <img src="{% static 'Logobg.jpg' %}" alt="" class="brand"
+      /></a>
+    </nav>
 
-      <!-- Login -->
+    <!-- Login -->
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-4">
@@ -157,7 +158,7 @@
           </div>
         </div>
         <div class="col-sm-8">
-          <img src="{% static 'Logobg.jpg' %}" alt=""/>
+          <img src="{% static 'Logobg.jpg' %}" alt="" />
         </div>
       </div>
     </div>

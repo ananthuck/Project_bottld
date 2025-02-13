@@ -39,7 +39,7 @@
       }
 
       nav {
-        background-color: rgba(244, 243, 91, 255);
+        background-color: white;
         max-height: 125px;
         margin-bottom: 125px;
       }
@@ -73,7 +73,7 @@
       }
       .navbar button {
         border: none;
-        background-color: rgba(244, 243, 91, 255);
+        background-color: white;
         color: green;
       }
       .navbar-brand {
@@ -144,7 +144,8 @@
         height: 30px;
       }
 
-      .carttab .btn button {
+      .carttab .btn button, 
+      .carttab a {
         border: none;
         font-family: Poppins;
         font-weight: 500;
@@ -153,6 +154,13 @@
         width: 107%;
         margin-top: -27px;
         border: 2px solid black;
+      }
+
+      .carttab a{
+        text-decoration: none;
+        color: black;
+        text-align: center;
+        padding-top: 4`px;
       }
 
       .close {
@@ -245,11 +253,19 @@
       .categories button {
         width: 100%;
         border: none;
-        background-color: rgba(244, 243, 91, 255);
         height: 50px;
         font-size: 20px;
         font-weight: 500;
         color: green;
+      }
+
+      .categories button .btn{
+        background-color: rgba(244, 243, 91, 255);
+      }
+
+      .btn-active{
+        background-color: orange;
+        border-radius: 5px;
       }
       .categories button:hover {
         background-color: orange;
@@ -396,14 +412,14 @@
       }
 
       .aboutdiv {
-        background-color: rgba(244, 243, 91, 255);
+        background-color: white;
         padding-top: 50px;
         padding-bottom: 50px;
         border: 5px solid orange;
       }
 
       .about {
-        background-color: rgba(244, 243, 91, 255);
+        background-color: white;
         font-size: 18px;
         font-family: cursive;
       }
@@ -542,7 +558,8 @@
       </div>
       <div class="btn">
           <button class="close">Close</button>
-          <button class="proceed">Proceed</button>
+          <a class="proceed" href="{% url 'checkout' %}">Proceed</a>
+         
       </div>
   </div>
   
@@ -658,10 +675,10 @@
     <!-- categories -->
     <div class="categories container-fluid">
       <div class="row" id="">
-        <div class="col-sm-3"><button>All Items</button></div>
-        <div class="col-sm-3"><button>Combos</button></div>
-        <div class="col-sm-3"><button>Juices</button></div>
-        <div class="col-sm-3"><button>Snacks</button></div>
+        <div class="col-sm-3"><button class="btn-active" id="all" onclick="allitems()">All Items</button></div>
+        <div class="col-sm-3"><button class="btn" id="combos" onclick="combos()">Combos</button></div>
+        <div class="col-sm-3"><button class="btn" id="juices" onclick="juices()">Juices</button></div>
+        <div class="col-sm-3"><button class="btn" id="snacks" onclick="snacks()">Snacks</button></div>
       </div>
     </div>
 
@@ -672,12 +689,13 @@
         <div class="row">
           {% for p in pdt %}
           <div class="col-sm-3">
-            <div class="card">
+            <div class="card category-{{p.category.id}}">
               <a href="{% url 'viewproduct' p.id %}"
-                ><img src="{{p.image.url}}" alt="Burger Image" />
+                ><img src="{{p.image.url}}" alt="Burger Image"/>
                 <div class="card-body">
                   <h3>{{p.productname}}</h3>
                   <p>{{p.description}}</p>
+                  <p style="display: none;">{{p.category.id}}</p>
                 </div>
               </a>
               <div class="card-bottom">
@@ -687,9 +705,7 @@
                     {% csrf_token %}
                     <input type="text" name="id" value="{{p.id}}" />
                     <input type="text" name="quantity" value="1" />
-                    <button class="btn btn-success" type="submit" onclick="">
-                      Order now
-                    </button>
+                    <button class="btn btn-success" type="submit" onclick="">Order now</button>
                   </form>
                 </div>
               </div>
@@ -890,6 +906,62 @@
         });
       });
     </script>
+
+    <script>
+      function juices() {
+      console.log('Filtering for Juices');
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.display = 'none';
+      });
+      document.querySelectorAll('.category-8').forEach(card => {
+        card.style.display = 'flex';
+      });
+      document.getElementById("juices").className = "btn-active";
+      document.getElementById("snacks").className = "btn";
+      document.getElementById("combos").className = "btn";
+      document.getElementById("all").className = "btn";
+    }
+    
+      function combos() {
+      console.log('Filtering for Combos');
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.display = 'none';
+      });
+      document.querySelectorAll('.category-9').forEach(card => {
+        card.style.display = 'flex';
+      });
+      document.getElementById("juices").className = "btn";
+      document.getElementById("snacks").className = "btn";
+      document.getElementById("combos").className = "btn-active";
+      document.getElementById("all").className = "btn";
+    }
+
+      function snacks() {
+      console.log('Filtering for Snacks');
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.display = 'none';
+      });
+      document.querySelectorAll('.category-7').forEach(card => {
+        card.style.display = 'flex';
+      });
+      document.getElementById("juices").className = "btn";
+      document.getElementById("snacks").className = "btn-active";
+      document.getElementById("combos").className = "btn";
+      document.getElementById("all").className = "btn";
+      }
+    </script>
+    
+    <script>function allitems() {
+      console.log('Showing All Items');
+      document.querySelectorAll('.card').forEach(card => {
+        card.style.display = 'flex';
+      });
+      document.getElementById("juices").className = "btn";
+      document.getElementById("snacks").className = "btn";
+      document.getElementById("combos").className = "btn";
+      document.getElementById("all").className = "btn-active";
+      }</script>
+
     <script src="static/js/pb.js"></script>
   </body>
 </html>

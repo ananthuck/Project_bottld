@@ -19,6 +19,7 @@ urlpatterns = [
     path('search/', views.search_product, name='search_product'),
     path('contact_mail', views.contact_mail, name='contact_mail'),
     path('userlogin', views.userlogin, name='userlogin'),
+    path('user_login/', views.user_login, name='user_login'),
     path('userreg', views.userreg, name='userreg'),
     path('generate_otp', views.generate_otp, name='generate_otp'),
     path('send_otp', views.send_otp, name='send_otp'),
@@ -28,4 +29,5 @@ urlpatterns = [
     path('addtocart/', views.addtocart, name='addtocart'),
     path('deleteitem/<int:pk>/', views.deleteitem, name='deleteitem'),
     path('update_quantity/', views.update_quantity, name='update_quantity'),
+    path('checkout/', views.checkout, name='checkout'),
 ]

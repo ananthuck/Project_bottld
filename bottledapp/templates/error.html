@@ -69,9 +69,9 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
         border-radius: 10px;
-        margin-top: 15%;
+        margin-top: 45%;
         margin-left: 10%;
-        height: 550px;
+        height: 200px;
         padding-top: 10%;
         padding-left: 30px;
         padding-right: 30px;
@@ -90,6 +90,24 @@
         text-decoration: none;
       }
 
+      .container {
+        padding-top: 70px;
+      }
+
+      h3, p {
+        text-align: center;
+      }
+
+      h3 {
+        padding-top: 5px;
+        padding-bottom: 10px;
+        background-color: black;
+        color: rgba(244,243,91,255);border-radius: 15px;
+      }
+      span{
+        font-size: 15px;
+      }
+
     </style>
   </head>
   <body>
@@ -103,25 +121,8 @@
       <div class="row">
         <div class="col-sm-4">
           <div class="container">
-            <h3>Login</h3>
+            <h3>Login Error. <span><a href="{% url 'userlogin' %}">try again</a></span></h3>
             <p>Don't have an account yet? <a href="{% url 'userreg' %}">Sign up</a></p>
-            <form method="post" action="{% url 'user_login' %}">      
-              {% csrf_token %}
-              <div class="form-group">
-                <label for="exampleInputEmail1">Email Address</label>
-                <input type="email" class="form-control" name="email" placeholder="Enter email"/>
-              </div>
-              <div class="form-group">
-                <label for="Password">Password</label>
-                <label for="forgotpassword"><a href="">Forgot Password?</a></label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password"/>
-              </div>
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input"/>
-                <label class="form-check-label">Remember Me</label>
-              </div> <br/>
-              <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
-            </form>
           </div>
         </div>
         <div class="col-sm-8">

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.http import HttpRequest
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, login as auth_login, logout
 from django.contrib import messages
 from bottledapp.models import *
 import os
@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from twilio.rest import Client
 import random
 from django.views.decorators.cache import cache_control
+from .models import Userlogin
 
 
 # Create your views here.
@@ -167,10 +168,10 @@ def generate_otp():
     return str(random.randint(1000, 9999))
 
 def send_otp(phone_number, otp):
-    client = Client('ACe40ee2636521cecbe7fc0673ee4b9cc7', 'adec3667f071626c92cd0f19d4fa207a')
+    client = Client('ACe40ee2636521cecbe7fc0673ee4b9cc7', 'abdf9eea6059bf6f4d3d6db4524dba60')
     client.messages.create(
         body=f'Your OTP is: {otp}',
-        from_='+12067598555',
+        from_='+15075435218',
         to=f'+91{phone_number}' )
     
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -212,6 +213,23 @@ def deleteuser(request, pk):
     udatas=Userlogin.objects.get(id=pk)
     udatas.delete()
     return redirect('admindb')
+
+def user_login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        try:
+            user = Userlogin.objects.get(email=email)
+            if user.password == password:
+                request.session['user_id'] = user.id
+                return redirect('home')
+            else:
+                messages.error(request, 'Invalid password.')        
+        except Userlogin.DoesNotExist:
+            messages.error(request, 'Email not found.')
+        
+    return render(request, 'error.html')
 
 def addtocart(request):
     if request.method == 'POST':
@@ -260,3 +278,6 @@ def update_quantity(request):
         return JsonResponse({'quantity': cart_item.quantity, 'total_price': cart_item.total_price})
     
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+def checkout(request):
+    return render(request, 'checkout.html')
